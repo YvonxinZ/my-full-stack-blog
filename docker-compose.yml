@@ -1,0 +1,60 @@
+# docker-compose.yml (位于 my_full_stack_Blog/ 目录下)
+ # 指定 compose 文件版本
+
+services:
+  # 1. 数据库服务 (PostgreSQL)
+  db:
+    image: postgres:15 # 使用官方 PostgreSQL 镜像 (选择你需要的版本)
+    container_name: postgres_db # (可选) 给容器起个名字
+    volumes:
+      # - /var/lib/postgresql/data # (不推荐) 直接映射，权限可能复杂
+      - postgres_data:/var/lib/postgresql/data/ # 将数据存储在 Docker 命名的 volume 中
+    environment:
+      # 从 .env 文件读取环境变量
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      # (可选) 将容器的 5432 端口映射到主机的 5433 端口
+      # 这样你可以用 pgAdmin 等工具从你的电脑连接到容器里的数据库 (地址 localhost:5433)
+      - "5433:5432" 
+    healthcheck: # (推荐) 检查数据库是否真正准备好接受连接
+        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  # 2. 后端服务 (Django App)
+  backend:
+    container_name: django_backend # (可选) 给容器起个名字
+    build: 
+      context: ./blog_backend # 指定 Dockerfile 所在的目录 (相对于 docker-compose.yml)
+      dockerfile: Dockerfile # 指定 Dockerfile 的文件名
+    # (开发阶段) 使用 runserver 命令
+    command: python manage.py runserver 0.0.0.0:8000 
+    volumes:
+      # 将本地的 blog_backend 代码挂载到容器的 /app 目录
+      # 这样你在本地修改代码，容器内会自动更新 (配合 runserver 的热重载)
+      - ./blog_backend:/app
+    ports:
+      # 将主机的 8000 端口映射到容器的 8000 端口
+      - "8000:8000"
+    environment:
+      # 从 .env 文件读取环境变量
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      DATABASE_URL: ${DATABASE_URL} 
+      # (或者分开设置)
+      # DB_ENGINE: django.db.backends.postgresql
+      # DB_NAME: ${POSTGRES_DB}
+      # DB_USER: ${POSTGRES_USER}
+      # DB_PASSWORD: ${POSTGRES_PASSWORD}
+      # DB_HOST: db # <-- 关键：指向 'db' 服务
+      # DB_PORT: 5432
+    depends_on:
+      db: # 告诉 Docker Compose，backend 服务需要先启动 db 服务
+        condition: service_healthy # (推荐) 等待 db 的 healthcheck 通过后再启动 backend
+
+# 3. 定义 Docker 命名的 volume
+volumes:
+  postgres_data: # 这个名字要和上面 db 服务 volumes 里的一致

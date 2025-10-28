@@ -1,0 +1,21 @@
+venv/
+__pycache__/
+*.pyc
+db.sqlite3 # 如果你还在用 SQLite (虽然 Docker 里是 PG)
+
+# Node.js / Next.js
+node_modules/
+.next/
+.contentlayer/ 
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# Docker / Secrets
+.env # 极其重要！
+.env*.local 
+
+# IDE / OS
+.vscode/
+*.swp

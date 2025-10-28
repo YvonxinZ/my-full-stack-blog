@@ -1,0 +1,160 @@
+import { api } from './api'; // <-- 导入 axios 实例
+
+// --- 在这里定义 TypeScript 类型 ---
+export type DjangoPost = {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  summary: string;
+  created_at: string;
+  author: number;
+  category: number | null;
+  tags: string[];
+  post_type: 'blog' | 'moment'; // 类型是 'blog' 或 'moment'
+  image_url?: string | null; // 图片 URL (可选)
+  image_alt?: string | null; // 图片 Alt 文本 (可选
+};
+
+// --- 1. 获取所有文章 (用于 /page.tsx 和 /blog/page.tsx) ---
+export async function getAllPosts(): Promise<DjangoPost[]> {
+  try {
+    // 请求 /api/posts/ (不带 type 参数)
+    const response = await api.get('/posts/');
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results as DjangoPost[];
+    }
+    // (添加对非分页数组的检查，以防万一)
+    if (response.data && Array.isArray(response.data)) {
+      return response.data as DjangoPost[];
+    }
+    console.error('Unexpected API response format for getAllPosts:', response.data);
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch all posts:', error);
+    throw new Error('Failed to fetch posts'); // 重新抛出错误
+  }
+}
+
+export async function getAllPosts_OnlyBlog(): Promise<DjangoPost[]> {
+  try {
+    // 请求 /api/posts/?type=blog
+    const response = await api.get('/posts/', { params: { type: 'blog' } });
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results as DjangoPost[];
+    }
+    if (response.data && Array.isArray(response.data)) {
+      return response.data as DjangoPost[];
+    }
+    console.error('Unexpected API response format for getAllPosts:', response.data);
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch blog posts:', error);
+    throw new Error('Failed to fetch blog posts');
+  }
+}
+export async function getAllMoments(): Promise<DjangoPost[]> {
+  try {
+    // 请求 /api/posts/?type=moment
+    const response = await api.get('/posts/', {
+      params: { type: 'moment' }, // <-- 关键：添加 type 参数
+    });
+
+    // 处理响应 (逻辑和 getAllPosts 类似)
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results as DjangoPost[];
+    }
+    if (response.data && Array.isArray(response.data)) {
+      return response.data as DjangoPost[];
+    }
+    console.error('Unexpected API response format for getAllMoments:', response.data);
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch moments:', error);
+    throw new Error('Failed to fetch moments'); // 重新抛出错误
+  }
+}
+export type DjangoTag = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
+export type DjangoCategory = {
+  id: number;
+  name: string;
+  slug: string;
+  parent: number | null;
+};
+
+export async function getAllTags(): Promise<DjangoTag[]> {
+  try {
+    const response = await api.get('/tags/');
+    // 检查 DRF 分页
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results;
+    }
+    return response.data; // 否则，假设它是一个简单数组
+  } catch (error) {
+    console.error('Failed to fetch all tags:', error);
+    return [];
+  }
+}
+
+export async function getPostsByTag(slug: string): Promise<DjangoPost[]> {
+  try {
+    // Use the 'tag_slug' query parameter we defined in Django's PostViewSet
+    const response = await api.get('/posts/', {
+      params: { tag_slug: slug },
+    });
+
+    // Handle pagination response if necessary
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results;
+    }
+    return response.data; // Fallback if no pagination
+  } catch (error) {
+    console.error(`Failed to fetch posts for tag ${slug}:`, error);
+    return []; // Return empty array on error
+  }
+}
+
+export async function getAllCategories(): Promise<DjangoCategory[]> {
+  try {
+    const response = await api.get('/categories/');
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results;
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch all categories:', error);
+    return [];
+  }
+}
+
+// --- 根据 Category Slug 获取文章 (用于 /category/[slug]/page.tsx) ---
+export async function getPostsByCategory(slug: string): Promise<DjangoPost[]> {
+  try {
+    const response = await api.get('/posts/', {
+      params: { category_slug: slug }, // 使用 category_slug 查询参数
+    });
+
+    if (response.data && Array.isArray(response.data.results)) {
+      return response.data.results;
+    }
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch posts for category ${slug}:`, error);
+    return [];
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<DjangoPost | null> {
+  try {
+    const response = await api.get(`/posts/${slug}/`);
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch post with slug ${slug}:`, error);
+    return null;
+  }
+}
