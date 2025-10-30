@@ -1,15 +1,14 @@
 import { ReactNode } from 'react';
-import type { Authors } from 'contentlayer/generated';
+import { genPageMetadata } from 'app/seo';
+// ---  Your DjangoAuthor type ---
+import type { DjangoAuthor } from '@/lib/data';
 import SocialIcon from '@/components/social-icons';
 import Image from '@/components/Image';
-
-interface Props {
-  children: ReactNode;
-  content: Omit<Authors, '_id' | '_raw' | 'body'>;
-}
-
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 export default function AuthorLayout({ children, content }: Props) {
-  const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content;
+  // --- 6. (修改) Destructure fields from DjangoAuthor ---
+  const { name, avatar_url, occupation, company, email, twitter, linkedin, github } = content; // <-- content is now DjangoAuthor
 
   return (
     <>
@@ -21,9 +20,10 @@ export default function AuthorLayout({ children, content }: Props) {
         </div>
         <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:space-y-0 xl:gap-x-8">
           <div className="flex flex-col items-center space-x-2 pt-8">
-            {avatar && (
+            {/* --- 7. Use avatar_url --- */}
+            {avatar_url && (
               <Image
-                src={avatar}
+                src={avatar_url} // <-- Use the field from API
                 alt="avatar"
                 width={192}
                 height={192}
@@ -34,13 +34,14 @@ export default function AuthorLayout({ children, content }: Props) {
             <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
             <div className="text-gray-500 dark:text-gray-400">{company}</div>
             <div className="flex space-x-3 pt-6">
-              <SocialIcon kind="mail" href={`mailto:${email}`} />
-              <SocialIcon kind="github" href={github} />
-              <SocialIcon kind="linkedin" href={linkedin} />
-              <SocialIcon kind="x" href={twitter} />
-              <SocialIcon kind="bluesky" href={bluesky} />
+              {/* --- 8. Use email, github, etc. --- */}
+              {email && <SocialIcon kind="mail" href={`mailto:${email}`} />}
+              {github && <SocialIcon kind="github" href={github} />}
+              {linkedin && <SocialIcon kind="linkedin" href={linkedin} />}
+              {twitter && <SocialIcon kind="twitter" href={twitter} />}
             </div>
           </div>
+          {/* The bio content (children) is rendered here */}
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             {children}
           </div>

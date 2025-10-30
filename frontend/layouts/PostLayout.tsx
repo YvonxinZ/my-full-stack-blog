@@ -1,4 +1,3 @@
-// --- 1. (清理) 移除了 contentlayer 的导入 ---
 import { ReactNode } from 'react';
 
 // --- 2. (导入) 导入我们自己的类型 ---

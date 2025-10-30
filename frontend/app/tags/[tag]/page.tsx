@@ -1,7 +1,6 @@
 // app/tags/[tag]/page.tsx
 
 // --- 1. (Clean up) Imports ---
-// (Removed contentlayer, tagData, github-slugger)
 import siteMetadata from '@/data/siteMetadata';
 import ListLayout from '@/layouts/ListLayoutWithTags'; // Keep the layout
 import { genPageMetadata } from 'app/seo';

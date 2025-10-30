@@ -1,5 +1,28 @@
 import { api } from './api'; // <-- 导入 axios 实例
-
+export async function getAuthorBySlug(slug: string): Promise<DjangoAuthor | null> {
+  try {
+    // 请求新的 /api/authors/[slug]/ 端点
+    const response = await api.get(`/authors/${slug}/`);
+    return response.data as DjangoAuthor;
+  } catch (error) {
+    console.error(`Failed to fetch author with slug ${slug}:`, error);
+    // 可能是 404
+    return null;
+  }
+}
+export type DjangoAuthor = {
+  id: number;
+  name: string;
+  slug: string;
+  avatar_url: string | null; // 匹配 model
+  occupation: string | null;
+  company: string | null;
+  email: string | null;
+  twitter: string | null;
+  linkedin: string | null;
+  github: string | null;
+  bio: string | null;
+};
 // --- 在这里定义 TypeScript 类型 ---
 export type DjangoPost = {
   id: number;
