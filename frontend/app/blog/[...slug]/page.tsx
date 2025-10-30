@@ -80,10 +80,7 @@ export const generateStaticParams = async () => {
 };
 
 // --- 7. (修改) Page 组件 - 从 API 获取数据并使用 ReactMarkdown ---
-export default async function Page(
-  { params }: any
-  //{ params: { slug: string | string[] } }
-) {
+export default async function Page({ params }: { params: { slug: string | string[] } }) {
   const slug = decodeURI(params.slug.join('/'));
 
   // --- a. 获取文章数据 ---

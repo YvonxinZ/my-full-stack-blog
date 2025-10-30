@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Author
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = [
+            'id', 'name', 'slug', 'avatar_url', 'occupation', 
+            'company', 'email', 'twitter', 'linkedin', 'github', 'bio'
+        ]
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -19,6 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
         slug_field='name' # 或者 'slug'，取决于你想显示哪个
     )
     summary = serializers.SerializerMethodField()
+    author = AuthorSerializer(read_only=True)
     def get_summary(self, obj):
         # 从 obj.content (完整内容) 中截取前 150 个字符
         return obj.content[:150] + '...'
@@ -36,4 +45,6 @@ class PostSerializer(serializers.ModelSerializer):
                    'summary',
                    'post_type',
                    'image_url',
-                   'image_alt']
+                   'image_alt',
+                   'author',
+                   'author_id']

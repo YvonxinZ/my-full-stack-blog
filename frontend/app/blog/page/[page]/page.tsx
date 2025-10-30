@@ -9,12 +9,8 @@ const POSTS_PER_PAGE = 5;
 // --- generateStaticParams 使用 API 数据 ---
 export const generateStaticParams = async () => {
   // const totalPages = Math.ceil(allBlogs.length / POSTS_PER_PAGE) // <-- 旧的
-
-  // ↓↓↓ 这是新的 ↓↓↓
   const posts = await getAllPosts(); // <-- 从 Django API 获取
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-  // ↑↑↑ 修改结束 ↑↑↑
-
   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }));
 
   return paths;

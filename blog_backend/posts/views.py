@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Post, Category, Tag
-from .serializers import PostSerializer, CategorySerializer, TagSerializer
+from .models import Post, Category, Tag, Author
+from .serializers import PostSerializer, CategorySerializer, TagSerializer, AuthorSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -13,7 +13,19 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
     permission_classes = [AllowAny]
 
+class AuthorViewSet(viewsets.ModelViewSet):
 
+    queryset = Author.objects.all().order_by('name')
+    serializer_class = AuthorSerializer
+    lookup_field = 'slug' # <-- 关键：使用 slug 而不是 id 来查询
+    
+    # (和 C/T/P ViewSet 一样的权限逻辑)
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny] # 允许任何人查看作者
+        else:
+            permission_classes = [IsAuthenticated] # 只有登录用户才能创建/修改/删除
+        return [permission() for permission in permission_classes]
 
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer

@@ -5,6 +5,36 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 
 # --- 分类模型 ---
+class Author(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Name")
+    slug = models.SlugField(max_length=100, unique=True, blank=True, verbose_name="Slug (auto-generated)")
+    
+    # 使用 CharField 而不是 URLField 来灵活支持本地路径 (如 /static/avatar.png)
+    avatar_url = models.CharField(max_length=500, blank=True, null=True, verbose_name="Avatar URL or Path")
+    
+    occupation = models.CharField(max_length=100, blank=True, null=True, verbose_name="Occupation")
+    company = models.CharField(max_length=100, blank=True, null=True, verbose_name="Company")
+    email = models.EmailField(blank=True, null=True, verbose_name="Email")
+    
+    # URLField 适合外部链接
+    twitter = models.URLField(max_length=200, blank=True, null=True, verbose_name="Twitter URL")
+    linkedin = models.URLField(max_length=200, blank=True, null=True, verbose_name="LinkedIn URL")
+    github = models.URLField(max_length=200, blank=True, null=True, verbose_name="GitHub URL")
+    
+    bio = models.TextField(blank=True, null=True, verbose_name="Biography (supports Markdown/HTML)")
+
+    class Meta:
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # 自动从 name 生成 slug
+            self.slug = slugify(self.name, allow_unicode=True) 
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 # 一个分类下可以有多篇文章 (一对多)
 class Category(models.Model):
     # 分类名称：CharField 表示这是一个字符串字段，max_length 是最大长度
@@ -69,7 +99,7 @@ class Post(models.Model):
     # 【关系字段】
     # 作者 (一对多): 使用 ForeignKey 关联到 Django 的 User 模型
     # on_delete=models.CASCADE 表示当关联的作者(User)被删除时，这篇帖子也一并被删除
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Author")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name="Author")
 
     # 分类 (一对多): 使用 ForeignKey 关联到我们上面定义的 Category 模型
     # on_delete=models.SET_NULL 表示当分类被删除时，这篇文章的 category 字段被设为 NULL，而不是删除文章
