@@ -1,4 +1,5 @@
-import { api } from './api.ts'; // <-- 导入 axios 实例
+import { api } from './api.ts';
+import axios from 'axios'; // <-- 导入 axios 实例
 export async function getAuthorBySlug(slug: string): Promise<DjangoAuthor | null> {
   try {
     // 请求新的 /api/authors/[slug]/ 端点
@@ -41,9 +42,12 @@ export type DjangoPost = {
 
 // --- 1. 获取所有文章 (用于 /page.tsx 和 /blog/page.tsx) ---
 export async function getAllPosts(): Promise<DjangoPost[]> {
+  // 请求 /api/posts/ (不带 type 参数)
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const url = `${API_URL}/posts/`;
   try {
-    // 请求 /api/posts/ (不带 type 参数)
-    const response = await api.get('/posts/');
+    const response = await axios.get(url);
+    //const response = await api.get('/posts/');
     if (response.data && Array.isArray(response.data.results)) {
       return response.data.results as DjangoPost[];
     }
@@ -111,8 +115,10 @@ export type DjangoCategory = {
 };
 
 export async function getAllTags(): Promise<DjangoTag[]> {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const url = `${API_URL}/tags/`;
   try {
-    const response = await api.get('/tags/');
+    const response = await axios.get(url);
     // 检查 DRF 分页
     if (response.data && Array.isArray(response.data.results)) {
       return response.data.results;
