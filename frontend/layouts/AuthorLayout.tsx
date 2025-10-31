@@ -1,11 +1,13 @@
 import { ReactNode } from 'react';
-import { genPageMetadata } from 'app/seo';
 // ---  Your DjangoAuthor type ---
 import type { DjangoAuthor } from '@/lib/data';
 import SocialIcon from '@/components/social-icons';
 import Image from '@/components/Image';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+
+type Props = {
+  children: ReactNode; // 子组件可以是任意合法的 React 节点，例如字符串、JSX 等。
+  content: DjangoAuthor; // content 的类型为 DjangoAuthor（从你的项目中导入）
+};
 export default function AuthorLayout({ children, content }: Props) {
   // --- 6. (修改) Destructure fields from DjangoAuthor ---
   const { name, avatar_url, occupation, company, email, twitter, linkedin, github } = content; // <-- content is now DjangoAuthor

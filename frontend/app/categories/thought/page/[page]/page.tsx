@@ -13,11 +13,10 @@ const CATEGORY_SLUG = 'thoughts'; // <-- 定义分类 slug
 
 // --- 2. generateMetadata (保持不变，只依赖参数) ---
 // (但最好更新一下标题/描述)
-export async function generateMetadata({
-  params,
-}: {
-  params: { page: string };
+export async function generateMetadata(props: {
+  params: Promise<{ page: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const page = decodeURI(params.page);
   return genPageMetadata({
     title: `Thoughts - Page ${page}`,
@@ -37,11 +36,10 @@ export const generateStaticParams = async () => {
 };
 
 // --- 4. Page Component ---
-export default async function ThoughtPaginationPage({
-  params,
-}: {
-  params: { page: string }; // Props 现在只有 page
+export default async function ThoughtPaginationPage(props: {
+  params: Promise<{ page: string }>; // Props 现在只有 page
 }) {
+  const params = await props.params;
   const pageNumber = parseInt(params.page as string);
   const title = 'Thoughts'; // 页面标题
 

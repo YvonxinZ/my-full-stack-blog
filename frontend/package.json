@@ -2,6 +2,10 @@
   "name": "tailwind-nextjs-starter-blog",
   "version": "2.4.0",
   "private": true,
+  "exports": {
+    "./scripts/rss.mjs": "./scripts/rss.mjs",
+    "./scripts/postbuild.mjs": "./scripts/postbuild.mjs"
+  },
   "scripts": {
     "start": "next dev",
     "dev": "cross-env INIT_CWD=./ next dev",
@@ -20,13 +24,14 @@
     "@tailwindcss/typography": "^0.5.15",
     "axios": "^1.12.2",
     "body-scroll-lock": "^4.0.0-beta.0",
+    "dotenv": "^17.2.3",
     "esbuild": "0.25.2",
     "gray-matter": "^4.0.2",
     "hast-util-from-html-isomorphic": "^2.0.0",
     "image-size": "2.0.1",
     "next": "15.2.4",
     "next-themes": "^0.4.6",
-    "pliny": "^0.4.1",
+    "pliny": "0.4.1",
     "postcss": "^8.4.24",
     "react": "19.0.0",
     "react-dom": "19.0.0",

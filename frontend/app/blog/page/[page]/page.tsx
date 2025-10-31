@@ -17,7 +17,8 @@ export const generateStaticParams = async () => {
 };
 
 // --- Page 组件的 props 类型 ---
-export default async function Page({ params }: { params: { page: string } }) {
+export default async function Page(props: { params: Promise<{ page: string }> }) {
+  const params = await props.params;
   const posts: DjangoPost[] = await getAllPosts(); // <-- 从 Django API 获取
   const pageNumber = parseInt(params.page as string);
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);

@@ -1,4 +1,4 @@
-import { api } from './api'; // <-- 导入 axios 实例
+import { api } from './api.ts'; // <-- 导入 axios 实例
 export async function getAuthorBySlug(slug: string): Promise<DjangoAuthor | null> {
   try {
     // 请求新的 /api/authors/[slug]/ 端点

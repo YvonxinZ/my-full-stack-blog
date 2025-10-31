@@ -16,7 +16,8 @@ export const metadata = genPageMetadata({
 });
 
 // --- 3. Page Component ---
-export default async function ThoughtPage({ searchParams }: { searchParams?: { page?: string } }) {
+export default async function ThoughtPage(props: { searchParams?: Promise<{ page?: string }> }) {
+  const searchParams = await props.searchParams;
   // --- a. 获取 'thoughts' 分类的文章 ---
   const posts: DjangoPost[] = await getPostsByCategory(CATEGORY_SLUG);
 

@@ -11,11 +11,10 @@ import type { DjangoPost, DjangoTag } from '@/lib/data';
 const POSTS_PER_PAGE = 5;
 
 // --- 3. (修改) generateMetadata - 保持不变 (它只依赖 tag slug) ---
-export async function generateMetadata({
-  params,
-}: {
-  params: { tag: string; page: string }; // Params type now includes page
+export async function generateMetadata(props: {
+  params: Promise<{ tag: string; page: string }>; // Params type now includes page
 }): Promise<Metadata> {
+  const params = await props.params;
   const tag = decodeURI(params.tag);
   return genPageMetadata({
     title: tag,
@@ -52,11 +51,10 @@ export const generateStaticParams = async () => {
 };
 
 // --- 5. (修改) Page 组件 - 使用 API 数据和分页 ---
-export default async function TagPage({
-  params,
-}: {
-  params: { tag: string; page: string }; // Props 现在包含 tag 和 page
+export default async function TagPage(props: {
+  params: Promise<{ tag: string; page: string }>; // Props 现在包含 tag 和 page
 }) {
+  const params = await props.params;
   const tagSlug = decodeURI(params.tag);
   const pageNumber = parseInt(params.page as string);
   const title = tagSlug[0].toUpperCase() + tagSlug.split(' ').join('-').slice(1);

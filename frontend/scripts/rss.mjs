@@ -1,6 +1,6 @@
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
-import { getAllPosts, getAllTags } from '../lib/data';
+import { getAllPosts, getAllTags } from '../lib/data.ts';
 import { escape } from 'pliny/utils/htmlEscaper.js';
 import siteMetadata from '../data/siteMetadata.js';
 

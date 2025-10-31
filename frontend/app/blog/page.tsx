@@ -8,7 +8,8 @@ const POSTS_PER_PAGE = 5;
 export const metadata = genPageMetadata({ title: 'Blog' });
 
 // --- 更新 props 类型定义，使其更清晰 ---
-export default async function BlogPage({ searchParams }: { searchParams?: { page?: string } }) {
+export default async function BlogPage(props: { searchParams?: Promise<{ page?: string }> }) {
+  const searchParams = await props.searchParams;
   const posts: DjangoPost[] = await getAllPosts_OnlyBlog(); //
 
   // --- 下面的所有分页逻辑都完美复用 ---

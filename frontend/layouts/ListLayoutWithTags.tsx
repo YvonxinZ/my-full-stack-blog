@@ -7,7 +7,6 @@ import { useMemo, useState } from 'react'; // <-- 导入 useMemo
 import Link from '@/components/Link';
 import Tag from '@/components/Tag';
 import siteMetadata from '@/data/siteMetadata';
-import tagData from 'app/tag-data.json';
 import type { DjangoPost } from '@/lib/data';
 
 interface PaginationProps {

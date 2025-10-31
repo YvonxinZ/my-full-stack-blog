@@ -15,11 +15,10 @@ const POSTS_PER_PAGE = 5;
 
 // --- 3. (Modify) generateMetadata ---
 // (We can keep this mostly the same, it uses the tag slug)
-export async function generateMetadata({
-  params,
-}: {
-  params: { tag: string }; // Params type is simpler now
+export async function generateMetadata(props: {
+  params: Promise<{ tag: string }>; // Params type is simpler now
 }): Promise<Metadata> {
+  const params = await props.params;
   const tag = decodeURI(params.tag);
   return genPageMetadata({
     title: tag,
@@ -49,13 +48,12 @@ export const generateStaticParams = async () => {
 };
 
 // --- 5. (Modify) The Page Component ---
-export default async function TagPage({
-  params,
-  searchParams, // Add searchParams for pagination
-}: {
-  params: { tag: string };
-  searchParams?: { page?: string }; // Optional page query param
+export default async function TagPage(props: {
+  params: Promise<{ tag: string }>;
+  searchParams?: Promise<{ page?: string }>; // Optional page query param
 }) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const tagSlug = decodeURI(params.tag);
   // Format title (can keep this logic)
   const title = tagSlug[0].toUpperCase() + tagSlug.split(' ').join('-').slice(1);

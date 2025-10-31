@@ -5488,6 +5488,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^17.2.3":
+  version: 17.2.3
+  resolution: "dotenv@npm:17.2.3"
+  checksum: fde23eb88649041ec7a0f6a47bbe59cac3c454fc2007cf2e40b9c984aaf0636347218c56cfbbf067034b0a73f530a2698a19b4058695787eb650ec69fe234624
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^8.2.0":
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
@@ -5521,9 +5528,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.238":
-  version: 1.5.243
-  resolution: "electron-to-chromium@npm:1.5.243"
-  checksum: 8f5eec2670e9b212c36219402342e83083f3b093188a35346bd2eb6bd8aabf8616dfc2189df2eb49ca5be977c176124eb7b443830bd4a2dbeecb4a878aec2ab5
+  version: 1.5.244
+  resolution: "electron-to-chromium@npm:1.5.244"
+  checksum: 0ca55077fa97c6a59e571d066bb1483399522d849758d878dd8e6b5ed0324c973da2448beb6cf630c2d700853824a633742158194d1345e6d2a53fa278dc8937
   languageName: node
   linkType: hard
 
@@ -10029,7 +10036,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pliny@npm:^0.4.1":
+"pliny@npm:0.4.1":
   version: 0.4.1
   resolution: "pliny@npm:0.4.1"
   dependencies:
@@ -11945,6 +11952,7 @@ __metadata:
     axios: ^1.12.2
     body-scroll-lock: ^4.0.0-beta.0
     cross-env: ^7.0.3
+    dotenv: ^17.2.3
     esbuild: 0.25.2
     eslint: ^9.14.0
     eslint-config-next: 15.2.4
@@ -11958,7 +11966,7 @@ __metadata:
     lint-staged: ^13.0.0
     next: 15.2.4
     next-themes: ^0.4.6
-    pliny: ^0.4.1
+    pliny: 0.4.1
     postcss: ^8.4.24
     prettier: ^3.0.0
     prettier-plugin-tailwindcss: ^0.6.11
@@ -11998,15 +12006,15 @@ __metadata:
   linkType: hard
 
 "tar@npm:^7.4.3":
-  version: 7.5.1
-  resolution: "tar@npm:7.5.1"
+  version: 7.5.2
+  resolution: "tar@npm:7.5.2"
   dependencies:
     "@isaacs/fs-minipass": ^4.0.0
     chownr: ^3.0.0
     minipass: ^7.1.2
     minizlib: ^3.1.0
     yallist: ^5.0.0
-  checksum: dbd55d4c3bd9e3c69aed137d9dc9fcb8f86afd103c28d97d52728ca80708f4c84b07e0a01d0bf1c8e820be84d37632325debf19f672a06e0c605c57a03636fd0
+  checksum: 192559b0e7af17d57c7747592ef22c14d5eba2d9c35996320ccd20c3e2038160fe8d928fc5c08b2aa1b170c4d0a18c119441e81eae8f227ca2028d5bcaa6bf23
   languageName: node
   linkType: hard
 

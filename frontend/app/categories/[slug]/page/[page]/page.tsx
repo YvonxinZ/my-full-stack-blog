@@ -15,11 +15,10 @@ import type { DjangoPost, DjangoCategory } from '@/lib/data';
 const POSTS_PER_PAGE = 5;
 
 // --- 3. generateMetadata - 使用 category slug ---
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string; page: string }; // Params 包含 slug 和 page
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string; page: string }>; // Params 包含 slug 和 page
 }): Promise<Metadata> {
+  const params = await props.params;
   const categorySlug = decodeURI(params.slug); // 使用 slug
   // (同样，推荐优化: 调用 API 获取 category.name)
   // const category = await getCategoryBySlug(categorySlug);
@@ -55,11 +54,10 @@ export const generateStaticParams = async () => {
 };
 
 // --- 5. Page 组件 - 使用 API 数据和分页 ---
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string; page: string }; // Props 包含 slug 和 page
+export default async function CategoryPage(props: {
+  params: Promise<{ slug: string; page: string }>; // Props 包含 slug 和 page
 }) {
+  const params = await props.params;
   const categorySlug = decodeURI(params.slug); // 使用 slug
   const pageNumber = parseInt(params.page as string);
   // (同样，推荐用 API 获取 category.name 来生成更友好的标题)

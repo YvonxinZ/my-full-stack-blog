@@ -30,11 +30,10 @@ const layouts = {
 };
 
 // --- 5. (修改) generateMetadata - 从 API 获取数据 ---
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string[] };
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string[] }>;
 }): Promise<Metadata | undefined> {
+  const params = await props.params;
   const slug = decodeURI(params.slug.join('/'));
   const post = await getPostBySlug(slug); // <-- (新) 从 API 获取
 
@@ -80,7 +79,8 @@ export const generateStaticParams = async () => {
 };
 
 // --- 7. (修改) Page 组件 - 从 API 获取数据并使用 ReactMarkdown ---
-export default async function Page({ params }: { params: { slug: string | string[] } }) {
+export default async function Page(props: { params: Promise<{ slug: string[] }> }) {
+  const params = await props.params;
   const slug = decodeURI(params.slug.join('/'));
 
   // --- a. 获取文章数据 ---
