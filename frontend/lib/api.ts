@@ -1,7 +1,7 @@
 import axios from 'axios';
 // 1. 定义你的 Django API 的基础 URL
 // // 我们使用 process.env 来使其在生产环境中可配置
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 // 2. 创建一个 axios 实例
 export const api = axios.create({
   baseURL: API_URL,
