@@ -152,8 +152,11 @@ export async function getPostsByTag(slug: string): Promise<DjangoPost[]> {
 }
 
 export async function getAllCategories(): Promise<DjangoCategory[]> {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const url = `${API_URL}/categories/`;
   try {
-    const response = await api.get('/categories/');
+    // const response = await api.get('/categories/');
+    const response = await axios.get(url);
     if (response.data && Array.isArray(response.data.results)) {
       return response.data.results;
     }
