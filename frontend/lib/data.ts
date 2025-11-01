@@ -81,11 +81,14 @@ export async function getAllPosts_OnlyBlog(): Promise<DjangoPost[]> {
   }
 }
 export async function getAllMoments(): Promise<DjangoPost[]> {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const url = `${API_URL}/posts/?type=moment`;
   try {
     // 请求 /api/posts/?type=moment
-    const response = await api.get('/posts/', {
-      params: { type: 'moment' }, // <-- 关键：添加 type 参数
-    });
+    const response = await axios.get(url);
+    //const response = await api.get('/posts/', {
+    //  params: { type: 'moment' }, // <-- 关键：添加 type 参数
+    //});
 
     // 处理响应 (逻辑和 getAllPosts 类似)
     if (response.data && Array.isArray(response.data.results)) {
