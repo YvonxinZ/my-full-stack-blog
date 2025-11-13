@@ -31,7 +31,7 @@ services:
       context: ./blog_backend # 指定 Dockerfile 所在的目录 (相对于 docker-compose.yml)
       dockerfile: Dockerfile # 指定 Dockerfile 的文件名
     # (开发阶段) 使用 runserver 命令
-    command: python manage.py runserver 0.0.0.0:8000 
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000" 
     volumes:
       # 将本地的 blog_backend 代码挂载到容器的 /app 目录
       # 这样你在本地修改代码，容器内会自动更新 (配合 runserver 的热重载)

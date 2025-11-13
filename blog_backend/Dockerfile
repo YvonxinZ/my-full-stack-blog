@@ -4,6 +4,9 @@
 FROM python:3.11-slim-bullseye 
 # (你可以选择你本地开发使用的 Python 版本，slim 版本更小)
 
+# 定义一个构建参数
+# ARG DJANGO_SECRET_KEY="build-key-local"
+
 # 2. 设置环境变量
 ENV PYTHONDONTWRITEBYTECODE 1 # 防止 Python 写入 .pyc 文件
 ENV PYTHONUNBUFFERED 1     # 让 Python 输出直接打印到终端，方便看日志
@@ -15,9 +18,11 @@ ENV PYTHONPATH /app
 
 # 4. 安装依赖
 #    首先只复制 requirements.txt，利用 Docker 缓存
-COPY requirements.txt .
+# COPY requirements/ ./requirements/ 
+
+COPY requirements/base.txt .
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install -r base.txt
 
 # 5. 复制项目代码
 #    将当前目录 (blog_backend/ 里的所有内容) 复制到容器的 /app 目录

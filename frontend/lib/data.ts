@@ -11,6 +11,13 @@ export async function getAuthorBySlug(slug: string): Promise<DjangoAuthor | null
     return null;
   }
 }
+
+export type PDFAttachment = {
+  id: number;
+  file: string; // 这将是一个 URL，例如 http://.../media/file.pdf
+  description: string | null;
+};
+
 export type DjangoAuthor = {
   id: number;
   name: string;
@@ -38,6 +45,7 @@ export type DjangoPost = {
   post_type: 'blog' | 'moment'; // 类型是 'blog' 或 'moment'
   image_url?: string | null; // 图片 URL (可选)
   image_alt?: string | null; // 图片 Alt 文本 (可选
+  pdf_attachments?: PDFAttachment[] | null;
 };
 
 // --- 1. 获取所有文章 (用于 /page.tsx 和 /blog/page.tsx) ---

@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
+    "noEmit": true,
     "composite": true,
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,

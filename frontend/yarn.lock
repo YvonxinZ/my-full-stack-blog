@@ -2292,18 +2292,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@headlessui/react@npm:2.2.0"
+"@headlessui/react@npm:^2.2.9":
+  version: 2.2.9
+  resolution: "@headlessui/react@npm:2.2.9"
   dependencies:
     "@floating-ui/react": ^0.26.16
-    "@react-aria/focus": ^3.17.1
-    "@react-aria/interactions": ^3.21.3
-    "@tanstack/react-virtual": ^3.8.1
+    "@react-aria/focus": ^3.20.2
+    "@react-aria/interactions": ^3.25.0
+    "@tanstack/react-virtual": ^3.13.9
+    use-sync-external-store: ^1.5.0
   peerDependencies:
     react: ^18 || ^19 || ^19.0.0-rc
     react-dom: ^18 || ^19 || ^19.0.0-rc
-  checksum: d64b23108e3f0ad4a28753aba5bc3c08ad771d2b9f5a2f3a7a8b4dec5b96fbbcce39fe9404a050af2c1ceafdc29837f5c3dc51ca03ea58c7ee2e30cf8b9b8d16
+  checksum: 32b8bbf62d09a53f6c2a3a49e9cab868a024810b53f1b12fb00e34ce4dc45c3c48acb09abcd319fb2da60a2d13482500be758c4fc112ec6e64b1cc587ea9825a
   languageName: node
   linkType: hard
 
@@ -3278,7 +3279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-aria/focus@npm:^3.17.1":
+"@react-aria/focus@npm:^3.20.2":
   version: 3.21.2
   resolution: "@react-aria/focus@npm:3.21.2"
   dependencies:
@@ -3294,7 +3295,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-aria/interactions@npm:^3.21.3, @react-aria/interactions@npm:^3.25.6":
+"@react-aria/interactions@npm:^3.25.0, @react-aria/interactions@npm:^3.25.6":
   version: 3.25.6
   resolution: "@react-aria/interactions@npm:3.25.6"
   dependencies:
@@ -3748,7 +3749,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.8.1":
+"@tanstack/react-virtual@npm:^3.13.9":
   version: 3.13.12
   resolution: "@tanstack/react-virtual@npm:3.13.12"
   dependencies:
@@ -11938,7 +11939,7 @@ __metadata:
   dependencies:
     "@eslint/eslintrc": ^3.2.0
     "@eslint/js": ^9.16.0
-    "@headlessui/react": 2.2.0
+    "@headlessui/react": ^2.2.9
     "@next/bundle-analyzer": 15.2.4
     "@svgr/webpack": ^8.0.1
     "@tailwindcss/forms": ^0.5.9
@@ -12519,6 +12520,15 @@ __metadata:
   dependencies:
     punycode: ^2.1.0
   checksum: 7167432de6817fe8e9e0c9684f1d2de2bb688c94388f7569f7dbdb1587c9f4ca2a77962f134ec90be0cc4d004c939ff0d05acc9f34a0db39a3c797dada262633
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.5.0":
+  version: 1.6.0
+  resolution: "use-sync-external-store@npm:1.6.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 61a62e910713adfaf91bdb72ff2cd30e5ba83687accaf3b6e75a903b45bf635f5722e3694af30d83a03e92cb533c0a5c699298d2fef639a03ffc86b469f4eee2
   languageName: node
   linkType: hard
 

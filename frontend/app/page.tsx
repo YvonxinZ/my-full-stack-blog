@@ -27,6 +27,7 @@ type DjangoPost = {
   tags: number[]; // 假设 API 返回 tag ID 数组
   // 你可能还需要在这里添加 author_name, category_name 等
   // (这取决于你的 PostSerializer 如何配置)
+  pdf_urls?: string[];
 };
 
 // 创建一个函数来获取数据

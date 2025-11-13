@@ -127,3 +127,23 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+class PDFAttachment(models.Model):
+    # 2. 核心：使用 ForeignKey 关联到 Post
+    # related_name='pdf_attachments' 非常重要, 它允许我们从 Post 反向查询
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='pdf_attachments')
+    
+    # 3. PDF 文件字段
+    file = models.FileField(upload_to='pdf_attachments/', verbose_name="PDF文件")
+    
+    # (可选) 您还可以给附件加个描述
+    description = models.CharField(max_length=255, blank=True, null=True, verbose_name="文件描述")
+
+    def __str__(self):
+        # 返回文件名
+        return self.file.name.split('/')[-1]
+
+    class Meta:
+        verbose_name = "PDF附件"
+        verbose_name_plural = "PDF附件"
+

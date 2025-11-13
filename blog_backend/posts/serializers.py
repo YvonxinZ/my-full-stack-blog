@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, Category, Tag, Author
+from .models import Post, Category, Tag, Author, PDFAttachment
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
@@ -7,6 +7,10 @@ class AuthorSerializer(serializers.ModelSerializer):
             'id', 'name', 'slug', 'avatar_url', 'occupation', 
             'company', 'email', 'twitter', 'linkedin', 'github', 'bio'
         ]
+class PDFAttachmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PDFAttachment
+        fields = ['id', 'file', 'description']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,8 +30,10 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='name' # 或者 'slug'，取决于你想显示哪个
     )
+
     summary = serializers.SerializerMethodField()
     author = AuthorSerializer(read_only=True)
+    pdf_attachments = PDFAttachmentSerializer(many=True, read_only=True)
     def get_summary(self, obj):
         # 从 obj.content (完整内容) 中截取前 150 个字符
         return obj.content[:150] + '...'
@@ -47,4 +53,5 @@ class PostSerializer(serializers.ModelSerializer):
                    'image_url',
                    'image_alt',
                    'author',
-                   'author_id']
+                   'author_id',
+                   'pdf_attachments']

@@ -1,11 +1,16 @@
+'use client';
+
 import siteMetadata from '@/data/siteMetadata';
 import headerNavLinks from '@/data/headerNavLinks';
 import Logo from '@/data/logo.svg';
 import Link from './Link';
-import MobileNav from './MobileNav';
+//import MobileNav from './MobileNav';
 import ThemeSwitch from './ThemeSwitch';
 import SearchButton from './SearchButton';
-
+const MobileNav = dynamic(() => import('./MobileNav'), {
+  ssr: false,
+});
+import dynamic from 'next/dynamic';
 const Header = () => {
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10';
   if (siteMetadata.stickyNav) {
